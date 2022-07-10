@@ -4,7 +4,7 @@ services:
   database:
     image: mysql:5.7.28
     hostname: swgemu_database
-    container_name: swgemu_database
+    container_name: swgemu_database_standalone
     ports:
       - "3306:3306"
     environment:
@@ -15,34 +15,4 @@ services:
     volumes:
       - ./mysql:/var/lib/mysql
       - ./sql:/docker-entrypoint-initdb.d
-    restart: always
-
-  swgemu:
-    depends_on:
-      - database
-    build: .
-    image: swgemu:dev
-    hostname: swgemu_server
-    container_name: swgemu_server
-    ports:
-      - "44419:44419"
-      - "44419:44419/udp"
-      - "44453:44453"
-      - "44453:44453/udp"
-      - "44462:44462"
-      - "44462:44462/udp"
-      - "44463:44463"
-      - "44463:44463/udp"
-      - "44455:44455"
-      - "44455:44455/udp"
-      - "44460:44460"
-    volumes:
-      - ./tre:/home/swgemu/Desktop/SWGEmu
-      - ./conf:/app/MMOCoreORB/bin/conf
-      - ./Core3/MMOCoreORB/bin/scripts:/app/MMOCoreORB/bin/scripts
-      - ./resource_manager/resource_manager_spawns.lua:/app/MMOCoreORB/bin/scripts/managers/resource_manager_spawns.lua
-      - ./log:/app/MMOCoreORB/bin/log
-      - ./navmeshes:/app/MMOCoreORB/bin/navmeshes
-      - ./databases:/app/MMOCoreORB/bin/databases
-    stop_grace_period: 1m
     restart: always
